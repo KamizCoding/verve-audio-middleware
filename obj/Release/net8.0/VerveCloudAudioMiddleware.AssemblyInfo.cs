@@ -13,9 +13,9 @@ using System.Reflection;
 
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("dotnet-VerveCloudAudioMiddleware-2ecda980-dcb0-4718-8b3a-7475bf2b2744")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("VerveCloudAudioMiddleware")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a07189d13c6209de9a10271a3df6f3e5c7357e13")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6bdaa5050288b01b9121a08d2a5e15eae7180079")]
 [assembly: System.Reflection.AssemblyProductAttribute("VerveCloudAudioMiddleware")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VerveCloudAudioMiddleware")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

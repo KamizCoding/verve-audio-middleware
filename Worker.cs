@@ -9,12 +9,12 @@ public class Worker : BackgroundService
         _logger = logger;
 
         _driveHelper = new OneDriveHelper(
-            "64cff0cc-575b-49cf-b837-5f3c7fc23062",
-            "da845803-2435-41d3-933a-8ea49062d091",
-            Environment.GetEnvironmentVariable("GRAPH_CLIENT_SECRET"),
-            "b!ZABt5L9HLUim0SeiXsmOZXZVgkcPbNhCrSaNJcGX2pOBCSYwMQaCQ43M8GScok8i", 
-            "/Recordings" 
-        );
+    Environment.GetEnvironmentVariable("ONEDRIVE_CLIENT_ID"),
+    Environment.GetEnvironmentVariable("ONEDRIVE_TENANT_ID"),
+    Environment.GetEnvironmentVariable("ONEDRIVE_CLIENT_SECRET"),
+    Environment.GetEnvironmentVariable("ONEDRIVE_REFRESH_TOKEN"),
+    "/Recordings"
+);
 
         _uploader = new AudioUploader("https://audiotranslator.onrender.com/api/audio/mic-translate");
     }

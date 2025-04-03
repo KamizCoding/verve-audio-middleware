@@ -1,24 +1,18 @@
-# Stage 1: Build
+# Use the .NET SDK image for building the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy project files
-COPY *.sln ./
-COPY VerveCloudAudioMiddleware/*.csproj ./VerveCloudAudioMiddleware/
+# Copy everything and restore dependencies
+COPY . ./
 RUN dotnet restore
 
-# Copy the rest of the code and build
-COPY VerveCloudAudioMiddleware/. ./VerveCloudAudioMiddleware/
-WORKDIR /app/VerveCloudAudioMiddleware
+# Build and publish the app
 RUN dotnet publish -c Release -o out
 
-# Stage 2: Runtime
+# Use the ASP.NET runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/VerveCloudAudioMiddleware/out ./
+COPY --from=build /app/out .
 
-# Set environment variables (OPTIONAL: also set them on Render)
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
-
+# Set the entry point
 ENTRYPOINT ["dotnet", "VerveCloudAudioMiddleware.dll"]

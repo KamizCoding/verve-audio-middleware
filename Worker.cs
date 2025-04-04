@@ -47,11 +47,18 @@ public class Worker : BackgroundService
                     break;
                 }
 
-                var stream = await _driveHelper.DownloadFileAsync(file.Id);
-                await _uploader.UploadAudioAsync(stream, file.Name);
-                _logger.LogInformation($"✅ Uploaded: {file.Name}");
+                try
+                {
+                    var stream = await _driveHelper.DownloadFileAsync(file.Id);
+                    await _uploader.UploadAudioAsync(stream, file.Name);
+                    _logger.LogInformation($"✅ Uploaded: {file.Name}");
+                }
+                catch (Exception fileEx)
+                {
+                    _logger.LogWarning($"⚠️ Failed to process {file.Name}: {fileEx.Message}");
+                }
 
-                await Task.Delay(10000, stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
             }
 
             _logger.LogInformation("🎉 All files processed. Exiting job.");

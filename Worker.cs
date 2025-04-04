@@ -36,6 +36,7 @@ public class Worker : BackgroundService
             if (files == null || files.Count == 0)
             {
                 _logger.LogInformation("✅ No new files found. Exiting.");
+                Environment.Exit(0); 
                 return;
             }
 
@@ -62,10 +63,12 @@ public class Worker : BackgroundService
             }
 
             _logger.LogInformation("🎉 All files processed. Exiting job.");
+            Environment.Exit(0);
         }
         catch (Exception ex)
         {
             _logger.LogError($"❌ Middleware execution failed: {ex.Message}");
+            Environment.Exit(1); 
         }
     }
 }

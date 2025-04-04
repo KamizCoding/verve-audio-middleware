@@ -1,4 +1,10 @@
-﻿public class Worker : BackgroundService
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
     private readonly OneDriveHelper _driveHelper;
@@ -27,7 +33,7 @@
         {
             var files = await _driveHelper.GetAudioFilesSortedAsync();
 
-            if (files.Count == 0)
+            if (files == null || files.Count == 0)
             {
                 _logger.LogInformation("✅ No new files found. Exiting.");
                 return;
@@ -35,11 +41,17 @@
 
             foreach (var file in files)
             {
-                if (stoppingToken.IsCancellationRequested) break;
+                if (stoppingToken.IsCancellationRequested)
+                {
+                    _logger.LogInformation("🛑 Cancellation requested. Exiting job.");
+                    break;
+                }
 
                 var stream = await _driveHelper.DownloadFileAsync(file.Id);
                 await _uploader.UploadAudioAsync(stream, file.Name);
                 _logger.LogInformation($"✅ Uploaded: {file.Name}");
+
+                await Task.Delay(10000, stoppingToken);
             }
 
             _logger.LogInformation("🎉 All files processed. Exiting job.");

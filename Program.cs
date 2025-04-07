@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+builder.WebHost.UseWebRoot("wwwroot");
+
 builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();

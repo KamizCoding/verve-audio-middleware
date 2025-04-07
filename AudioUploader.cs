@@ -38,7 +38,7 @@ public class AudioUploader
             using var jsonDoc = JsonDocument.Parse(resultJson);
             var root = jsonDoc.RootElement;
 
-            var original = root.GetProperty("original_text").GetString() ?? "";
+            var original = root.GetProperty("transcribed_text").GetString() ?? "";
             var translated = root.GetProperty("translated_text").GetString() ?? "";
 
             return (original, translated);

@@ -1,22 +1,19 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureLogging(logging =>
-    {
-        logging.ClearProviders();
-        logging.AddConsole();
-    })
-    .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
-    })
-    .Build();
+var builder = WebApplication.CreateBuilder(args);
 
-var logger = host.Services.GetRequiredService<ILogger<Program>>();
-logger.LogInformation("🚀 Starting Verve Audio Middleware...");
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
-await host.RunAsync();
+builder.Services.AddHostedService<Worker>();
 
-logger.LogInformation("🛑 Verve Audio Middleware stopped.");
+var app = builder.Build();
+
+app.UseStaticFiles(); // ✅ Serve wwwroot/results/latest.json to frontend
+
+app.MapGet("/", () => "🎧 Verve Middleware is running!");
+
+await app.RunAsync();

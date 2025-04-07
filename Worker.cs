@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,7 +38,7 @@ public class Worker : BackgroundService
             if (files == null || files.Count == 0)
             {
                 _logger.LogInformation("✅ No new files found. Exiting.");
-                Environment.Exit(0); 
+                Environment.Exit(0);
                 return;
             }
 
@@ -51,8 +53,10 @@ public class Worker : BackgroundService
                 try
                 {
                     var stream = await _driveHelper.DownloadFileAsync(file.Id);
-                    await _uploader.UploadAudioAsync(stream, file.Name);
+                    var result = await _uploader.UploadAudioAsync(stream, file.Name);
                     _logger.LogInformation($"✅ Uploaded: {file.Name}");
+
+                    await SaveResultAsJson(file.Name, result);
                 }
                 catch (Exception fileEx)
                 {
@@ -68,7 +72,23 @@ public class Worker : BackgroundService
         catch (Exception ex)
         {
             _logger.LogError($"❌ Middleware execution failed: {ex.Message}");
-            Environment.Exit(1); 
+            Environment.Exit(1);
         }
+    }
+
+    private async Task SaveResultAsJson(string fileName, (string Original, string Translated) result)
+    {
+        var outputPath = Path.Combine("wwwroot", "results");
+        Directory.CreateDirectory(outputPath);
+
+        var json = JsonSerializer.Serialize(new
+        {
+            transcribed_text = result.Original,
+            translated_text = result.Translated,
+            timestamp = DateTime.UtcNow.ToString("o")
+        }, new JsonSerializerOptions { WriteIndented = true });
+
+        var filePath = Path.Combine(outputPath, "latest.json");
+        await File.WriteAllTextAsync(filePath, json);
     }
 }

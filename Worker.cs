@@ -20,7 +20,7 @@ public class Worker : BackgroundService
             Environment.GetEnvironmentVariable("ONEDRIVE_CLIENT_ID"),
             Environment.GetEnvironmentVariable("ONEDRIVE_TENANT_ID"),
             Environment.GetEnvironmentVariable("ONEDRIVE_CLIENT_SECRET"),
-            Environment.GetEnvironmentVariable("ONEDRIVE_REFRESH_TOKEN"),
+            Environment.GetEnvironmentVariable("ONEDRIVE_DRIVE_ID"),
             "/Recordings"
         );
 

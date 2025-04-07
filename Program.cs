@@ -12,7 +12,7 @@ builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();
 
-app.UseStaticFiles(); // ✅ Serve wwwroot/results/latest.json to frontend
+app.UseStaticFiles();
 
 app.MapGet("/", () => "🎧 Verve Middleware is running!");
 

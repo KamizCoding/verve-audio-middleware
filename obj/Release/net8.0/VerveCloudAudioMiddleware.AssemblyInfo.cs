@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VerveCloudAudioMiddleware")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6bdaa5050288b01b9121a08d2a5e15eae7180079")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9a2e064575aa61364a8c33f11004b6f6ce78c95")]
 [assembly: System.Reflection.AssemblyProductAttribute("VerveCloudAudioMiddleware")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VerveCloudAudioMiddleware")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
